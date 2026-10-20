@@ -32,7 +32,7 @@ PRISM 专为**研究人员、开发者和学者**量身打造，只为让你能�
 *   Node.js 22 或更高版本
     *   **重要提示**：请务必前往 [https://nodejs.org/en/download](https://nodejs.org/en/download) 手动下载并安装 Node.js。
     *   最好不要使用系统自带的包管理器安装的版本，因为它们通常较旧且可能导致兼容性问题。
-*   npm, pnpm, 或 yarn
+*   Bun 1.4.3
 
 ### 安装步骤
 
@@ -46,13 +46,13 @@ PRISM 专为**研究人员、开发者和学者**量身打造，只为让你能�
 2.  **安装依赖：**
 
     ```bash
-    npm ci
+    bun ci
     ```
 
 3.  **启动开发服务器：**
 
     ```bash
-    npm run dev
+    bun run dev
     ```
 
     在浏览器中打开 [http://localhost:3000](http://localhost:3000)，即可实时预览你的网站。
@@ -118,7 +118,7 @@ PRISM 现已支持多语言：
 PRISM 针对静态部署进行了深度优化，你可以轻松将其托管在任何支持静态网站的平台上。
 
 ```bash
-npm run build
+bun run build
 ```
 
 运行上述命令后，会生成一个 `out/` 目录，这就是你网站的全部静态文件。

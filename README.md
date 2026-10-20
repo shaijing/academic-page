@@ -30,7 +30,7 @@ Feel free to customize your own version of PRISM with coding agents.
 *   Node.js 22 or later
     *   **Important**: Please download and install Node.js manually from [https://nodejs.org/en/download](https://nodejs.org/en/download).
     *   Better not to use the pre-installed version on your system, as it may be outdated or incompatible.
-*   npm, pnpm, or yarn
+*   Bun 1.4.3
 
 ### Installation
 
@@ -44,13 +44,13 @@ Feel free to customize your own version of PRISM with coding agents.
 2.  **Install dependencies:**
 
     ```bash
-    npm ci
+    bun ci
     ```
 
 3.  **Run the development server:**
 
     ```bash
-    npm run dev
+    bun run dev
     ```
 
     Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -110,7 +110,7 @@ Configure language behavior in `content/config.toml`:
 PRISM is optimized for static deployment.
 
 ```bash
-npm run build
+bun run build
 ```
 
 This generates a static `out/` directory that can be hosted anywhere.

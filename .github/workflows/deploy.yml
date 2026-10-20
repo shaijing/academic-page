@@ -26,10 +26,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
 
       - name: Install dependencies
-        run: npm ci
+        run: bun ci
 
       - name: Build site
         run: |
@@ -37,7 +41,7 @@ jobs:
           if [ "$repo_name" != "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
             export NEXT_PUBLIC_BASE_PATH="/$repo_name"
           fi
-          npm run build
+          bun run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

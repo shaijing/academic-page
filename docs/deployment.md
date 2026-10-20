@@ -13,8 +13,8 @@ This guide is designed for beginners. You don't need complex configurations to d
     Open your terminal in the project folder and run:
     
     ```bash
-    npm ci
-    npm run build
+    bun ci
+    bun run build
     ```
     This will create a folder named `out` in your project directory. This folder contains your generated website.
     
@@ -78,7 +78,7 @@ To enable deployment:
 
 Once enabled, GitHub Actions will:
 
-- Build your site (`npm ci && npm run build`)
+- Build your site (`bun ci && bun run build`)
 - Export static files into `out/`
 - Deploy automatically to GitHub Pages
 
@@ -86,7 +86,7 @@ Your site will be available at `https://<username>.github.io`
 
 If you are using a repository other than `username.github.io`, your site will be at `https://<username>.github.io/<repository>/`.
 
-The included GitHub Actions workflow sets the path prefix automatically. For a manual build of a repository site, run `NEXT_PUBLIC_BASE_PATH=/my-repo npm run build`. Leave this variable unset for a user site or a custom domain.
+The included GitHub Actions workflow sets the path prefix automatically. For a manual build of a repository site, run `NEXT_PUBLIC_BASE_PATH=/my-repo bun run build`. Leave this variable unset for a user site or a custom domain.
 
 
 
@@ -95,7 +95,7 @@ The included GitHub Actions workflow sets the path prefix automatically. For a m
 ## Option 2: Cloudflare Pages
 
 1.  **Build your project**
-    Run `npm run build` to generate the `out` folder.
+    Run `bun run build` to generate the `out` folder.
 
 2.  **Create Application**
     *   Log in to the [Cloudflare Dashboard](https://dash.cloudflare.com/).

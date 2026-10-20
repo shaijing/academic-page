@@ -13,8 +13,8 @@
     打开终端，进入项目文件夹，运行以下命令：
 
     ```bash
-    npm ci
-    npm run build
+    bun ci
+    bun run build
     ```
 
     运行完成后，你会发现在项目目录下多了一个名为 `out` 的文件夹。这里面就是你网站的所有静态文件。
@@ -81,7 +81,7 @@ PRISM 也支持使用 GitHub Actions **自动部署到 GitHub Pages**。
 
 启用后，GitHub Actions 将会：
 
-- 构建您的站点 (`npm ci && npm run build`)
+- 构建您的站点 (`bun ci && bun run build`)
 - 将静态文件导出到 `out/`
 - 自动部署到 GitHub Pages
 
@@ -89,14 +89,14 @@ PRISM 也支持使用 GitHub Actions **自动部署到 GitHub Pages**。
 
 如果您使用的仓库名称不是 `username.github.io`，您的站点将位于 `https://<username>.github.io/<repository>/`。
 
-附带的 GitHub Actions 工作流会自动设置路径前缀。手动构建仓库站点时运行 `NEXT_PUBLIC_BASE_PATH=/my-repo npm run build`。用户站点或自定义域名无需设置此变量。
+附带的 GitHub Actions 工作流会自动设置路径前缀。手动构建仓库站点时运行 `NEXT_PUBLIC_BASE_PATH=/my-repo bun run build`。用户站点或自定义域名无需设置此变量。
 
 ---
 
 ## 方案二：Cloudflare Pages
 
 1.  **构建项目**
-    同样地，先运行 `npm run build`，生成 `out` 文件夹。
+    同样地，先运行 `bun run build`，生成 `out` 文件夹。
 
 2.  **创建应用**
     *   登录 [Cloudflare 控制台 (Dashboard)](https://dash.cloudflare.com/)。
