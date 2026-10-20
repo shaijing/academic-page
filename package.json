@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "bun run validate:content && next build && bun scripts/finalize-export.mjs",
+    "publish": "bun run build && bun scripts/publish.mjs",
     "validate:content": "bun scripts/validate-content.mjs",
     "start": "next start",
     "lint": "next lint"
@@ -32,6 +33,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.28",
+    "gh-pages": "^6.3.0",
     "lightningcss": "^1",
     "tailwindcss": "^4",
     "typescript": "^5"
