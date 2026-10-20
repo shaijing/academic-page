@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { parse } from 'smol-toml';
+import { parseToml } from '@/lib/toml';
 
 const DEFAULT_CONTENT_DIR = 'content';
 
@@ -27,19 +27,11 @@ function readFirstAvailableFile(filename: string, locale?: string): string {
     try {
       return fs.readFileSync(filePath, 'utf-8');
     } catch (error) {
-      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
-        console.error(`Error loading file ${filePath}:`, error);
-      }
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
     }
   }
 
-  if (locale) {
-    console.warn(`Missing localized file \"${filename}\" for locale \"${locale}\", and no fallback found in content/.`);
-  } else {
-    console.warn(`Missing file \"${filename}\" in content/.`);
-  }
-
-  return '';
+  throw new Error(`Missing content file \"${filename}\"${locale ? ` for locale \"${locale}\"` : ''} in ${candidates.join(' or ')}`);
 }
 
 export function getMarkdownContent(filename: string, locale?: string): string {
@@ -57,13 +49,17 @@ export function getTomlContent<T>(filename: string, locale?: string): T | null {
   }
 
   try {
-    return parse(content) as unknown as T;
+    return parseToml<T>(content);
   } catch (error) {
-    console.error(`Error parsing TOML file ${filename}:`, error);
-    return null;
+    throw new Error(`Failed to parse TOML file \"${filename}\": ${String(error)}`);
   }
 }
 
 export function getPageConfig<T = unknown>(pageName: string, locale?: string): T | null {
-  return getTomlContent<T>(`${pageName}.toml`, locale);
+  if (!/^[a-z0-9_-]+$/i.test(pageName)) return null;
+  const filename = `${pageName}.toml`;
+  if (!getCandidateFilePaths(filename, locale).some((filePath) => fs.existsSync(filePath))) {
+    return null;
+  }
+  return getTomlContent<T>(filename, locale);
 }

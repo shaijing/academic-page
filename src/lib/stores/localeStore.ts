@@ -12,7 +12,7 @@ interface LocaleStore {
   locales: string[];
   defaultLocale: string;
   persistSelection: boolean;
-  initialize: (config: I18nRuntimeConfig) => void;
+  initialize: (config: I18nRuntimeConfig, routeLocale?: string) => void;
   setLocale: (locale: string) => void;
 }
 
@@ -47,10 +47,12 @@ function clearPersistedLocale() {
   }
 }
 
-function resolveInitialLocale(config: I18nRuntimeConfig): string {
+function resolveInitialLocale(config: I18nRuntimeConfig, routeLocale?: string): string {
   if (!config.enabled) {
     return config.defaultLocale;
   }
+
+  if (routeLocale) return routeLocale;
 
   const bootLocale = matchLocale(document.documentElement.getAttribute('data-locale'), config.locales);
   if (bootLocale) {
@@ -79,8 +81,8 @@ export const useLocaleStore = create<LocaleStore>()((set, get) => ({
   defaultLocale: 'en',
   persistSelection: true,
 
-  initialize: (config: I18nRuntimeConfig) => {
-    const initialLocale = resolveInitialLocale(config);
+  initialize: (config: I18nRuntimeConfig, routeLocale?: string) => {
+    const initialLocale = resolveInitialLocale(config, routeLocale);
 
     set({
       locale: initialLocale,

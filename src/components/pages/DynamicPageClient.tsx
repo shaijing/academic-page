@@ -9,7 +9,6 @@ import {
   TextPageConfig,
   CardPageConfig,
 } from '@/types/page';
-import { useLocaleStore } from '@/lib/stores/localeStore';
 
 export type DynamicPageLocaleData =
   | { type: 'publication'; config: PublicationPageConfig; publications: Publication[] }
@@ -17,21 +16,13 @@ export type DynamicPageLocaleData =
   | { type: 'card'; config: CardPageConfig };
 
 interface DynamicPageClientProps {
-  dataByLocale: Record<string, DynamicPageLocaleData>;
-  defaultLocale: string;
+  pageData: DynamicPageLocaleData;
+  locale: string;
 }
 
-export default function DynamicPageClient({ dataByLocale, defaultLocale }: DynamicPageClientProps) {
-  const locale = useLocaleStore((state) => state.locale);
-  const fallback = dataByLocale[defaultLocale] || Object.values(dataByLocale)[0];
-  const pageData = dataByLocale[locale] || fallback;
-
-  if (!pageData) {
-    return null;
-  }
-
+export default function DynamicPageClient({ pageData, locale }: DynamicPageClientProps) {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div lang={locale} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {pageData.type === 'publication' && (
         <PublicationsList config={pageData.config} publications={pageData.publications} />
       )}

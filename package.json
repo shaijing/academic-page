@@ -4,23 +4,23 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run validate:content && next build && node scripts/finalize-export.mjs",
+    "validate:content": "node scripts/validate-content.mjs",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
-    "bibtex-parse-js": "^0.0.24",
+    "bibtex-parse-js": "0.0.23",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.515.0",
-    "next": "15.3.3",
-    "next-themes": "^0.4.6",
+    "next": "15.5.28",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
-    "smol-toml": "^1.5.2",
+    "smol-toml": "1.9.1",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
@@ -30,14 +30,15 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.3.3",
+    "eslint-config-next": "15.5.28",
     "lightningcss": "^1",
-    "svg2ico": "^1.0.35",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "optionalDependencies": {
-    "lightningcss-linux-x64-gnu": "^1"
+  "overrides": {
+    "next": {
+      "postcss": "^8.5.31"
+    }
   },
   "engines": {
     "node": ">=22.0.0"

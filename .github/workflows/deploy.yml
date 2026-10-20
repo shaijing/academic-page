@@ -29,10 +29,15 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build site
-        run: npm run build
+        run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          if [ "$repo_name" != "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+            export NEXT_PUBLIC_BASE_PATH="/$repo_name"
+          fi
+          npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

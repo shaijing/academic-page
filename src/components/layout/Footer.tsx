@@ -2,6 +2,7 @@
 
 import { useLocaleStore } from '@/lib/stores/localeStore';
 import { useMessages } from '@/lib/i18n/useMessages';
+import { usePathname } from 'next/navigation';
 
 interface FooterProps {
   lastUpdated?: string;
@@ -11,13 +12,16 @@ interface FooterProps {
 
 export default function Footer({ lastUpdated, lastUpdatedByLocale, defaultLocale = 'en' }: FooterProps) {
   const locale = useLocaleStore((state) => state.locale);
+  const pathname = usePathname();
+  const pathLocale = pathname.split('/').filter(Boolean)[0];
+  const resolvedLocale = pathLocale && pathLocale in (lastUpdatedByLocale || {}) ? pathLocale : locale;
   const messages = useMessages();
 
   const resolvedLastUpdated =
-    lastUpdatedByLocale?.[locale] ||
+    lastUpdatedByLocale?.[resolvedLocale] ||
     (defaultLocale ? lastUpdatedByLocale?.[defaultLocale] : undefined) ||
     lastUpdated ||
-    new Date().toLocaleDateString(locale || 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    new Date().toLocaleDateString(resolvedLocale || 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
     <footer className="border-t border-neutral-200/50 bg-neutral-50/50 dark:bg-neutral-900/50 dark:border-neutral-700/50">

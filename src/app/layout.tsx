@@ -7,6 +7,7 @@ import { LocaleProvider } from '@/components/ui/LocaleProvider';
 import { getConfig } from '@/lib/config';
 import { getRuntimeI18nConfig } from '@/lib/i18n/config';
 import type { SiteConfig } from '@/lib/config';
+import { assetPath } from '@/lib/assetPath';
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = getConfig();
@@ -24,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     creator: config.author.name,
     publisher: config.author.name,
     icons: {
-      icon: config.site.favicon,
+      icon: assetPath(config.site.favicon),
     },
     openGraph: {
       type: 'website',
@@ -38,10 +39,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 function buildLocaleBootstrapScript(config: ReturnType<typeof getRuntimeI18nConfig>): string {
   const serializedConfig = JSON.stringify(config).replace(/</g, '\\u003c');
+  const serializedBasePath = JSON.stringify(process.env.NEXT_PUBLIC_BASE_PATH || '');
 
   return `
     try {
       const cfg = ${serializedConfig};
+      const basePath = ${serializedBasePath};
       const storageKey = 'locale-storage';
       const normalize = (value) => typeof value === 'string' ? value.trim().replace('_', '-').toLowerCase() : '';
       const matchLocale = (candidate) => {
@@ -71,6 +74,18 @@ function buildLocaleBootstrapScript(config: ReturnType<typeof getRuntimeI18nConf
 
       if (!resolved) {
         resolved = cfg.defaultLocale;
+      }
+
+      const pathname = location.pathname.startsWith(basePath + '/')
+        ? location.pathname.slice(basePath.length)
+        : location.pathname;
+      const firstSegment = pathname.split('/').filter(Boolean)[0];
+      const routeLocale = firstSegment !== cfg.defaultLocale && cfg.locales.includes(firstSegment)
+        ? firstSegment : null;
+      if (routeLocale) {
+        resolved = routeLocale;
+      } else if (resolved !== cfg.defaultLocale) {
+        location.replace(basePath + '/' + resolved + pathname + location.search + location.hash);
       }
 
       const root = document.documentElement;
@@ -131,16 +146,7 @@ export default function RootLayout({
   return (
     <html lang={runtimeI18n.defaultLocale} className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" href={config.site.favicon} type="image/svg+xml" />
-        <link rel="dns-prefetch" href="https://jialeliu.com" />
-        <link rel="preconnect" href="https://jialeliu.com" crossOrigin="" />
-        <link
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          href="https://jialeliu.com/fonts/georgiab.woff2"
-          crossOrigin=""
-        />
+        <link rel="icon" href={assetPath(config.site.favicon)} type="image/svg+xml" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

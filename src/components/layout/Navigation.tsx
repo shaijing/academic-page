@@ -10,9 +10,9 @@ import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import LanguageToggle from '@/components/ui/LanguageToggle';
 import type { SiteConfig } from '@/lib/config';
-import { useLocaleStore } from '@/lib/stores/localeStore';
 import { useMessages } from '@/lib/i18n/useMessages';
 import type { I18nRuntimeConfig } from '@/types/i18n';
+import { localeFromPath, localizedPath } from '@/lib/i18n/paths';
 
 interface NavigationProps {
   items: SiteConfig['navigation'];
@@ -32,7 +32,6 @@ export default function Navigation({
   siteTitleByLocale,
 }: NavigationProps) {
   const pathname = usePathname();
-  const locale = useLocaleStore((state) => state.locale);
   const [scrolled, setScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState('');
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
@@ -44,7 +43,9 @@ export default function Navigation({
     top: number;
     height: number;
   } | null>(null);
-  const resolvedLocale = i18n.enabled ? locale : i18n.defaultLocale;
+  const resolvedLocale = localeFromPath(pathname, i18n.locales, i18n.defaultLocale);
+  const localHref = (href: string) => localizedPath(href, resolvedLocale, i18n.locales, i18n.defaultLocale);
+  const currentPath = localizedPath(pathname, i18n.defaultLocale, i18n.locales, i18n.defaultLocale);
 
   const effectiveItems = useMemo(() => {
     return itemsByLocale?.[resolvedLocale] || itemsByLocale?.[i18n.defaultLocale] || items;
@@ -117,11 +118,11 @@ export default function Navigation({
     enableOnePageMode
       ? activeHash === `#${item.target}` || (!activeHash && item.target === 'about')
       : (item.href === '/'
-        ? pathname === '/'
-        : pathname.startsWith(item.href));
+        ? currentPath === '/'
+        : currentPath.startsWith(item.href));
 
   const getDesktopItemHref = (item: SiteConfig['navigation'][number]) =>
-    enableOnePageMode ? `/#${item.target}` : item.href;
+    localHref(enableOnePageMode ? `/#${item.target}` : item.href);
 
   const activeItem = effectiveItems.find((item) => isDesktopItemActive(item)) ?? null;
   const activeHref = activeItem ? getDesktopItemHref(activeItem) : null;
@@ -162,7 +163,7 @@ export default function Navigation({
       {({ open }) => (
         <>
           <motion.div
-            initial={{ y: -100 }}
+            initial={false}
             animate={{ y: 0 }}
             transition={{ duration: 0.6 }}
             className={cn(
@@ -180,7 +181,7 @@ export default function Navigation({
                   className="flex-shrink-0"
                 >
                   <Link
-                    href="/"
+                    href={localHref('/')}
                     className="text-xl lg:text-2xl font-serif font-semibold text-primary hover:text-accent transition-colors duration-200"
                   >
                     {effectiveSiteTitle}
@@ -281,14 +282,14 @@ export default function Navigation({
                   <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     {effectiveItems.map((item, index) => {
                       const isActive = enableOnePageMode
-                        ? (item.href === '/' ? pathname === '/' && !activeHash : activeHash === `#${item.target}`)
+                        ? (item.href === '/' ? currentPath === '/' && !activeHash : activeHash === `#${item.target}`)
                         : (item.href === '/'
-                          ? pathname === '/'
-                          : pathname.startsWith(item.href));
+                          ? currentPath === '/'
+                          : currentPath.startsWith(item.href));
 
-                      const href = enableOnePageMode
+                      const href = localHref(enableOnePageMode
                         ? (item.href === '/' ? '/' : `/#${item.target}`)
-                        : item.href;
+                        : item.href);
 
                       return (
                         <motion.div

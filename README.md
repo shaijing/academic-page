@@ -44,7 +44,7 @@ Feel free to customize your own version of PRISM with coding agents.
 2.  **Install dependencies:**
 
     ```bash
-    npm install
+    npm ci
     ```
 
 3.  **Run the development server:**

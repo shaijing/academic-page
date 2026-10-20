@@ -13,6 +13,7 @@ import { MapPinIcon as MapPinSolidIcon, EnvelopeIcon as EnvelopeSolidIcon } from
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { Github, Linkedin, Pin } from 'lucide-react';
 import type { SiteConfig } from '@/lib/config';
+import { assetPath } from '@/lib/assetPath';
 import { useMessages } from '@/lib/i18n/useMessages';
 
 // Custom ORCID icon component
@@ -106,7 +107,7 @@ export default function Profile({ author, social, features, researchInterests }:
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="sticky top-8"
@@ -114,7 +115,7 @@ export default function Profile({ author, social, features, researchInterests }:
             {/* Profile Image */}
             <div className="w-64 h-64 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
                 <Image
-                    src={author.avatar}
+                    src={assetPath(author.avatar)}
                     alt={author.name}
                     width={256}
                     height={256}

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { parse } from 'smol-toml';
+import { parseToml } from '@/lib/toml';
 import type { I18nConfig } from '@/types/i18n';
 
 export interface SiteConfig {
@@ -57,7 +57,7 @@ function normalizeLocale(locale: string): string {
 function readConfigFromPath(configPath: string): Partial<SiteConfig> | null {
   try {
     const fileContent = fs.readFileSync(configPath, 'utf-8');
-    return parse(fileContent) as unknown as Partial<SiteConfig>;
+    return parseToml<Partial<SiteConfig>>(fileContent);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
       return null;

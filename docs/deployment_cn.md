@@ -13,7 +13,7 @@
     打开终端，进入项目文件夹，运行以下命令：
 
     ```bash
-    npm install
+    npm ci
     npm run build
     ```
 
@@ -81,7 +81,7 @@ PRISM 也支持使用 GitHub Actions **自动部署到 GitHub Pages**。
 
 启用后，GitHub Actions 将会：
 
-- 构建您的站点 (`npm install && npm run build`)
+- 构建您的站点 (`npm ci && npm run build`)
 - 将静态文件导出到 `out/`
 - 自动部署到 GitHub Pages
 
@@ -89,35 +89,7 @@ PRISM 也支持使用 GitHub Actions **自动部署到 GitHub Pages**。
 
 如果您使用的仓库名称不是 `username.github.io`，您的站点将位于 `https://<username>.github.io/<repository>/`。
 
-在这种情况下，请确保在 `next.config.ts` 中相应地设置 `basePath` 和 `assetPrefix`，以便为您的资源添加路径前缀：
-
-```typescript
-// next.config.ts
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
-
-  // 添加这两行
-  basePath: "/my-repo",
-  assetPrefix: "/my-repo",
-
-  images: {
-    unoptimized: true,
-  },
-  /* config options here */
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.bib$/,
-      type: 'asset/source',
-    });
-    return config;
-  },
-};
-
-export default nextConfig;
-```
+附带的 GitHub Actions 工作流会自动设置路径前缀。手动构建仓库站点时运行 `NEXT_PUBLIC_BASE_PATH=/my-repo npm run build`。用户站点或自定义域名无需设置此变量。
 
 ---
 

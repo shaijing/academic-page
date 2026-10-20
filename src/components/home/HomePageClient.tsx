@@ -10,7 +10,6 @@ import CardPage from '@/components/pages/CardPage';
 import type { SiteConfig } from '@/lib/config';
 import { Publication } from '@/types/publication';
 import { CardPageConfig, PublicationPageConfig, TextPageConfig } from '@/types/page';
-import { useLocaleStore } from '@/lib/stores/localeStore';
 
 interface SectionConfig {
   id: string;
@@ -40,21 +39,14 @@ export interface HomePageLocaleData {
 }
 
 interface HomePageClientProps {
-  dataByLocale: Record<string, HomePageLocaleData>;
+  data: HomePageLocaleData;
+  locale: string;
   defaultLocale: string;
 }
 
-export default function HomePageClient({ dataByLocale, defaultLocale }: HomePageClientProps) {
-  const locale = useLocaleStore((state) => state.locale);
-  const fallback = dataByLocale[defaultLocale] || Object.values(dataByLocale)[0];
-  const data = dataByLocale[locale] || fallback;
-
-  if (!data) {
-    return null;
-  }
-
+export default function HomePageClient({ data, locale, defaultLocale }: HomePageClientProps) {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-background min-h-screen">
+    <div lang={locale} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-background min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-1">
           <Profile
@@ -85,6 +77,8 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
                         publications={section.publications || []}
                         title={section.title}
                         enableOnePageMode={data.enableOnePageMode}
+                        locale={locale}
+                        defaultLocale={defaultLocale}
                       />
                     );
                   case 'list':

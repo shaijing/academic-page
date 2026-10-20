@@ -13,7 +13,7 @@ This guide is designed for beginners. You don't need complex configurations to d
     Open your terminal in the project folder and run:
     
     ```bash
-    npm install
+    npm ci
     npm run build
     ```
     This will create a folder named `out` in your project directory. This folder contains your generated website.
@@ -78,7 +78,7 @@ To enable deployment:
 
 Once enabled, GitHub Actions will:
 
-- Build your site (`npm install && npm run build`)
+- Build your site (`npm ci && npm run build`)
 - Export static files into `out/`
 - Deploy automatically to GitHub Pages
 
@@ -86,35 +86,7 @@ Your site will be available at `https://<username>.github.io`
 
 If you are using a repository other than `username.github.io`, your site will be at `https://<username>.github.io/<repository>/`.
 
-In this case, make sure to set the `basePath` and `assetPrefix` in `next.config.ts` accordingly to add path prefixes to your assets:
-
-```
-// next.config.ts
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
-
-  // Add these two lines
-  basePath: "/my-repo",
-  assetPrefix: "/my-repo",
-
-  images: {
-    unoptimized: true,
-  },
-  /* config options here */
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.bib$/,
-      type: 'asset/source',
-    });
-    return config;
-  },
-};
-
-export default nextConfig;
-```
+The included GitHub Actions workflow sets the path prefix automatically. For a manual build of a repository site, run `NEXT_PUBLIC_BASE_PATH=/my-repo npm run build`. Leave this variable unset for a user site or a custom domain.
 
 
 

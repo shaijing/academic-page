@@ -6,13 +6,17 @@ import { LanguageIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
 import { useLocaleStore } from '@/lib/stores/localeStore';
 import type { I18nRuntimeConfig } from '@/types/i18n';
+import { usePathname, useRouter } from 'next/navigation';
+import { localeFromPath, localizedPath } from '@/lib/i18n/paths';
 
 interface LanguageToggleProps {
   i18n: I18nRuntimeConfig;
 }
 
 export default function LanguageToggle({ i18n }: LanguageToggleProps) {
-  const { locale, setLocale } = useLocaleStore();
+  const setLocale = useLocaleStore((state) => state.setLocale);
+  const pathname = usePathname();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +36,7 @@ export default function LanguageToggle({ i18n }: LanguageToggleProps) {
     );
   }
 
-  const currentLocale = i18n.locales.includes(locale) ? locale : i18n.defaultLocale;
+  const currentLocale = localeFromPath(pathname, i18n.locales, i18n.defaultLocale);
   const currentLabel = i18n.labels[currentLocale] || currentLocale;
 
   return (
@@ -74,6 +78,7 @@ export default function LanguageToggle({ i18n }: LanguageToggleProps) {
                 key={localeOption}
                 onClick={() => {
                   setLocale(localeOption);
+                  router.push(localizedPath(pathname, localeOption, i18n.locales, i18n.defaultLocale) + window.location.hash);
                   setIsOpen(false);
                 }}
                 className={cn(
