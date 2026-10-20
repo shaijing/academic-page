@@ -1,26 +1,16 @@
 ## Education
 
-**The University of Example**, PhD in Natural Science, *2025 - Present*
-- Research focus: Mathematical Principles of Natural Philosophy
-- Supervisor: Prof. Advisor One and Dr. Advisor Two
+**Jilin University**, Master's in Computer Science and Technology, *2025 - 2028*
 
-**The University of Example**, BSc in Natural Science, *2021 - 2025*
+- Research focus: Optimization and Large Language Models
+- Supervisor: Dr. Yuanhong Wang and Dr. Xiaofeng Cao
+
+**Tianjin University of Technology**, BSc in Mathematics and Applied Mathematics, *2021 - 2025*
+- Supervisor: Dr. Cong Shen and Prof. Chenchen Wu
 - Graduated with First Class Honours
-
-## Experience
-
-**Example Role**
-Company/Institution
-*2023 - 2024*
-- Description of key responsibilities and achievements.
-- Utilized skills to solve problems.
 
 ## Skills
 
-- **Programming:** Python, C++, MATLAB, LaTeX
+- **Programming:** Python, Rust, C++, LaTeX
 - **Data Analysis:** Pandas, NumPy, SciPy
-- **Languages:** English (Native), French (Fluent)
-
-## Awards & Honors
-
-- **First Prize in Example Competition** - Committee of Example (*2024*)
+- **Languages:** Mandarin (Native), English (Fluent)

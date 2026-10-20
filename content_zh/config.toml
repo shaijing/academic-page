@@ -1,18 +1,18 @@
 [site]
-title = "刘嘉乐"
-description = "某某大学博士生个人主页。"
+title = "Ling Yu"
+description = "吉林大学人工智能学院硕士研究生的个人主页。"
 last_updated = "2025年11月18日"
 
 [author]
-name = "刘嘉乐"
-title = "博士生"
-institution = "某某大学"
+name = "Ling Yu"
+title = "硕士研究生"
+institution = "吉林大学"
 
 [social]
-location = "城市，国家"
+location = "中国长春"
 location_details = [
-  "理科楼 123 室，",
-  "大学路，城市，国家"
+  "吉林大学人工智能学院 612 室，",
+  "中国吉林省长春市"
 ]
 
 [[navigation]]
@@ -26,12 +26,6 @@ title = "论文"
 type = "page"
 target = "publications"
 href = "/publications"
-
-[[navigation]]
-title = "教学"
-type = "page"
-target = "teaching"
-href = "/teaching"
 
 [[navigation]]
 title = "奖项"

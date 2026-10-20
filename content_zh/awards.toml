@@ -3,25 +3,25 @@ title = "奖项"
 description = "我获得的荣誉与奖项。"
 
 [[items]]
-title = "示例奖项"
-subtitle = "颁发机构"
-date = "2025"
-content = "奖项说明。"
+title = "学业奖学金"
+subtitle = "吉林大学"
+date = "2025年11月"
+content = ""
 
 [[items]]
-title = "示例奖项"
-subtitle = "颁发机构"
-date = "2024"
-content = "奖项说明。"
+title = "优秀毕业论文"
+subtitle = "天津理工大学"
+date = "2025年6月"
+content = ""
 
 [[items]]
-title = "示例奖项"
-subtitle = "颁发机构"
-date = "2023"
-content = "奖项说明。"
+title = "优秀毕业生"
+subtitle = "天津理工大学"
+date = "2025年6月"
+content = ""
 
 [[items]]
-title = "示例奖项"
-subtitle = "颁发机构"
-date = "2022"
-content = "奖项说明。"
+title = "人民奖学金特等奖及校级三好学生称号"
+subtitle = "天津理工大学"
+date = "2022年10月、2023年11月、2024年11月"
+content = ""
